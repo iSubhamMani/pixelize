@@ -1,0 +1,12 @@
+import icon from "../../public/assets/icon.png";
+
+const Navbar = () => {
+  return (
+    <div className="px-8 py-2 flex gap-2 items-center cursor-pointer">
+      <img className="w-8" src={icon} alt="" />
+      <h1 className="text-xl text-accent-clr font-bold">Pixelize</h1>
+    </div>
+  );
+};
+
+export default Navbar;

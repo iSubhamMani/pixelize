@@ -1,4 +1,4 @@
-import icon from "../../public/assets/icon.png";
+import icon from "../../assets/icon.png";
 
 const Navbar = () => {
   return (

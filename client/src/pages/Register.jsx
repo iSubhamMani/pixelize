@@ -2,7 +2,8 @@ import { Link } from "react-router-dom";
 import Button from "../components/Button";
 import InputField from "../components/InputField";
 import Navbar from "../components/Navbar";
-import camera from "../../public/assets/camera.png";
+import camera from "../../assets/camera.png";
+import { useRef, useState } from "react";
 
 const Register = () => {
   return (
@@ -14,12 +15,7 @@ const Register = () => {
         </h1>
       </header>
       <main className="mt-[50px] flex flex-col items-center">
-        <div>
-          <div className="p-4 mb-12 bg-secondary-clr rounded-full">
-            <img className="w-10" src={camera} alt="" />
-          </div>
-        </div>
-        <div className="sm:w-[60%] sm:max-w-[350px]">
+        <div className="mt-[30px] sm:w-[60%] sm:max-w-[350px]">
           <div className="mb-4 w-full">
             <InputField type={"text"} placeholder={"fullname"} />
           </div>

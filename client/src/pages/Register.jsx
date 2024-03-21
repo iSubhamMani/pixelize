@@ -2,8 +2,6 @@ import { Link } from "react-router-dom";
 import Button from "../components/Button";
 import InputField from "../components/InputField";
 import Navbar from "../components/Navbar";
-import camera from "../../assets/camera.png";
-import { useRef, useState } from "react";
 
 const Register = () => {
   return (

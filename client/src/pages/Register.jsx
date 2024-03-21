@@ -1,8 +1,8 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "../components/Button";
 import InputField from "../components/InputField";
 import Navbar from "../components/Navbar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ClientError } from "../utils/ClientError";
 import {
   validateEmail,
@@ -11,6 +11,7 @@ import {
   validateUserName,
 } from "../utils/validate";
 import axios from "axios";
+import Spinner from "../components/Spinner";
 
 const Register = () => {
   const [fullName, setFullName] = useState(null);
@@ -18,6 +19,21 @@ const Register = () => {
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [registered, setRegistered] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!registered) return;
+
+    const timer = setTimeout(() => {
+      navigate("/login");
+    }, 3000);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [registered]);
 
   const validateUserDetails = () => {
     if (
@@ -65,27 +81,32 @@ const Register = () => {
         }
       );
 
-      if (response) {
-        console.log(response);
+      if (response.status === 200 && response.data?.status === 201) {
+        setLoading(false);
+        setRegistered(true);
       }
     } catch (error) {
-      // handle and display error
-      console.log(error);
+      setLoading(false);
+
+      if (error.response.status === 409) setError("User already exists");
+      else if (error.response.status === 500)
+        setError("Something went wrong, please check your internet connection");
+      else setError(error.message);
     }
   };
 
   const handleSubmit = () => {
     try {
       setError(null);
+      setLoading(true);
       // validate input
       validateUserDetails();
       // send a post request
       handleRequest();
     } catch (error) {
       // display error
-      if (error.code === "ERR_BAD_RESPONSE")
-        setError("Something went wrong, please check your internet connection");
-      else setError(error.message);
+      setLoading(false);
+      setError(error.message);
     }
   };
 
@@ -98,6 +119,13 @@ const Register = () => {
         </h1>
       </header>
       <main className="mt-[20px] sm:mt-[50px] flex flex-col items-center">
+        {registered && (
+          <div className="text-center mt-4">
+            <p className="text-green-600">
+              Registered successfully. You will soon be redirected to login page
+            </p>
+          </div>
+        )}
         {error && (
           <div className="text-center mt-4">
             <p className="text-error-clr">{error}</p>
@@ -136,8 +164,12 @@ const Register = () => {
               onChangeHandler={(e) => setPassword(e.target.value)}
             />
           </div>
-          <div className="mt-8 w-full">
-            <Button content={"Register"} onClickHandler={handleSubmit} />
+          <div className="mt-8 w-full text-center">
+            {loading ? (
+              <Spinner />
+            ) : (
+              <Button content={"Register"} onClickHandler={handleSubmit} />
+            )}
           </div>
         </div>
         <div className="text-center mt-8">

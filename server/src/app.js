@@ -11,7 +11,10 @@ app.use(cookieParser());
 
 // routes
 import userRouter from "./routes/user.route.js";
+import errorHandler from "./utils/errorHandler.js";
 
 app.use("/api/v1/users", userRouter);
+
+app.use(errorHandler);
 
 export { app };

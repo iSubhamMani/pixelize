@@ -35,10 +35,12 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 
   if (
-    validateFullName(fullname) &&
-    validateUserName(username) &&
-    validateEmail(email) &&
-    validatePassword(password)
+    !(
+      validateFullName(fullname) &&
+      validateUserName(username) &&
+      validateEmail(email) &&
+      validatePassword(password)
+    )
   ) {
     throw new ApiError(400, "Invalid input");
   }

@@ -88,9 +88,10 @@ const Register = () => {
     } catch (error) {
       setLoading(false);
 
-      if (error.response.status === 409) setError("User already exists");
-      else if (error.response.status === 500)
-        setError("Something went wrong, please check your internet connection");
+      if (error.response.data.status === 409)
+        setError(error.response.data.message);
+      else if (error.response.data.status === 500)
+        setError(error.response.data.message);
       else setError(error.message);
     }
   };

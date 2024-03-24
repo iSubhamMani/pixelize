@@ -88,10 +88,10 @@ const Register = () => {
     } catch (error) {
       setLoading(false);
 
-      if (error.response.data.status === 409)
-        setError(error.response.data.message);
-      else if (error.response.data.status === 500)
-        setError(error.response.data.message);
+      if (error.response.data?.status === 409)
+        setError(error.response.data?.message);
+      else if (error.response.data?.status === 500)
+        setError(error.response.data?.message);
       else setError(error.message);
     }
   };

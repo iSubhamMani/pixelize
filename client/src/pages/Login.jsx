@@ -20,7 +20,7 @@ const Login = () => {
   useEffect(() => {
     if (!loggedIn) return;
 
-    navigate("/feed");
+    navigate("/");
   }, [loggedIn]);
 
   const validateUserDetails = () => {

@@ -130,21 +130,26 @@ const renewToken = asyncHandler(async (req, res) => {
   if (incomingRefreshToken !== user?.refreshToken)
     throw new ApiError(401, "Token mismatch");
 
-  const { newAccessToken, newRefreshToken } =
+  const { accessToken, refreshToken } =
     await generateAccessTokenAndRefreshToken(user?._id);
 
   await User.findByIdAndUpdate(user?._id, {
-    refreshToken: newRefreshToken,
+    refreshToken,
   }).select("-password -refreshToken");
+
+  const options = {
+    httpOnly: true,
+    secure: "true",
+  };
 
   return res
     .status(200)
-    .cookie("accessToken", newAccessToken)
-    .cookie("refreshToken", newRefreshToken)
+    .cookie("accessToken", accessToken, options)
+    .cookie("refreshToken", refreshToken, options)
     .json(
       new ApiResponse(200, "Token renewed", {
-        accessToken: newAccessToken,
-        refreshToken: newRefreshToken,
+        accessToken,
+        refreshToken,
       })
     );
 });

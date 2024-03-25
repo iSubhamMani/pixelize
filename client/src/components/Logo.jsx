@@ -1,6 +1,6 @@
 import icon from "../../assets/icon.png";
 
-const Navbar = () => {
+const Logo = () => {
   return (
     <div className="px-8 py-2 flex gap-2 items-center">
       <img className="w-8" src={icon} alt="" />
@@ -11,4 +11,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default Logo;

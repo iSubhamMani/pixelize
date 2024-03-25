@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import Button from "../components/Button";
 import InputField from "../components/InputField";
-import Navbar from "../components/Navbar";
+import Logo from "../components/Logo";
 import { useEffect, useState } from "react";
 import { ClientError } from "../utils/ClientError";
 import { validatePassword, validateUserName } from "../utils/validate";
@@ -82,8 +82,8 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-[100vh] bg-primary-clr px-6 py-6">
-      <Navbar />
+    <div className="min-h-[100vh] bg-primary-clr px-2 py-4 sm:px-6 sm:py-6">
+      <Logo />
       <header className="text-center mt-[50px] sm:mt-[100px]">
         <h1 className="text-text-clr-1 text-4xl font-bold leading-[3rem] md:text-5xl">
           Login to your account

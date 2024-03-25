@@ -4,6 +4,9 @@ import { useNavigate } from "react-router-dom";
 import handleTokenRenewal from "../utils/handleTokenRenewal";
 import { useDispatch } from "react-redux";
 import { addUser } from "../redux/slices/user.slice";
+import Navbar from "../components/Navbar";
+import NavbarMobile from "../components/NavbarMobile";
+import Logo from "../components/Logo";
 
 const Feed = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -43,7 +46,17 @@ const Feed = () => {
     }
   };
 
-  return isAuthenticated && <div>Feed</div>;
+  return (
+    isAuthenticated && (
+      <div className="min-h-[100vh] bg-primary-clr relative">
+        <div className="py-4 sm:hidden">
+          <Logo />
+        </div>
+        <Navbar />
+        <NavbarMobile />
+      </div>
+    )
+  );
 };
 
 export default Feed;

@@ -114,6 +114,16 @@ const loginUser = asyncHandler(async (req, res) => {
     );
 });
 
+const getCurrentUser = asyncHandler(async (req, res) => {
+  const { _id } = req.user;
+
+  const user = await User.findById(_id).select("-password -refreshToken");
+
+  if (!user) throw new ApiError(404, "User not found");
+
+  res.status(200).json(new ApiResponse(200, "User found", user));
+});
+
 const renewToken = asyncHandler(async (req, res) => {
   const incomingRefreshToken = req.cookies?.refreshToken;
 
@@ -154,4 +164,4 @@ const renewToken = asyncHandler(async (req, res) => {
     );
 });
 
-export { registerUser, loginUser, renewToken };
+export { registerUser, loginUser, getCurrentUser, renewToken };

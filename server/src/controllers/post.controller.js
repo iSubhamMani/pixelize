@@ -2,6 +2,7 @@ import asyncHandler from "../utils/asyncHandler.js";
 import ApiError from "../utils/ApiError.js";
 import { Post } from "../models/post.model.js";
 import ApiResponse from "../utils/ApiResponse.js";
+import { uploadPhotoToCloudinary } from "../utils/cloudinary.js";
 
 const uploadPost = asyncHandler(async (req, res) => {
   const { caption } = req.body;

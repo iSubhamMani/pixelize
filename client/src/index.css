@@ -55,3 +55,31 @@ body {
     transform: rotate(360deg);
   }
 }
+
+.main-content {
+  position: absolute;
+  left: calc(25% + 20px);
+  width: calc(75% - 20px); /* Adjust as needed */
+  max-width: calc(100% - 290px); /* Adjust as needed */
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+}
+
+@media (max-width: 640px) {
+  .main-content {
+    position: relative;
+    left: auto;
+    width: 100%;
+    max-width: none;
+    margin-top: 20px;
+  }
+}
+
+@media (max-width: 767px) {
+  .nav-text {
+    display: none;
+  }
+}

@@ -2,7 +2,7 @@ import Spinner from "./Spinner";
 
 const Loading = () => {
   return (
-    <div className="main-content sm:top-[40%]">
+    <div className="main-content">
       <Spinner />
     </div>
   );

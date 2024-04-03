@@ -17,6 +17,18 @@ const uploadPost = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Image is required");
   }
 
+  const fileExtension = imageLocalPath.split(".").pop();
+
+  if (
+    !(
+      fileExtension === "jpg" ||
+      fileExtension === "jpeg" ||
+      fileExtension === "png"
+    )
+  ) {
+    throw new ApiError(400, "Invalid file type");
+  }
+
   // upload photo to cloudinary
   const imageResponse = await uploadPhotoToCloudinary(imageLocalPath);
 

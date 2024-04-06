@@ -3,6 +3,7 @@ import ApiError from "../utils/ApiError.js";
 import { Post } from "../models/post.model.js";
 import ApiResponse from "../utils/ApiResponse.js";
 import { uploadPhotoToCloudinary } from "../utils/cloudinary.js";
+import mongoose from "mongoose";
 
 const uploadPost = asyncHandler(async (req, res) => {
   const { caption } = req.body;
@@ -52,4 +53,54 @@ const uploadPost = asyncHandler(async (req, res) => {
     .json(new ApiResponse(201, "Post uploaded successfully", post));
 });
 
-export { uploadPost };
+const getAllPosts = asyncHandler(async (req, res) => {
+  const { page = 1, limit = 10 } = req.query;
+
+  const options = {
+    page,
+    limit,
+  };
+
+  const pipeline = [
+    {
+      $match: {
+        owner: { $ne: new mongoose.Types.ObjectId(req.user?._id) },
+      },
+    },
+    {
+      $lookup: {
+        from: "users",
+        localField: "owner",
+        foreignField: "_id",
+        as: "owner",
+        pipeline: [
+          {
+            $project: {
+              _id: 1,
+              fullname: 1,
+              username: 1,
+              profilePhoto: 1,
+            },
+          },
+        ],
+      },
+    },
+    {
+      $addFields: {
+        owner: {
+          $first: "$owner",
+        },
+      },
+    },
+  ];
+
+  const posts = await Post.aggregatePaginate(Post.aggregate(pipeline), options);
+
+  if (!posts) throw new ApiError(404, "No posts found");
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, "Posts fetched successfully", posts));
+});
+
+export { uploadPost, getAllPosts };

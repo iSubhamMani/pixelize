@@ -69,7 +69,7 @@ const UploadPost = () => {
   };
 
   return (
-    <div className="main-content px-4 py-8 flex flex-col">
+    <div className="px-4 py-8 flex flex-1 flex-col items-center justify-center">
       {error && (
         <div className="text-center mt-2 mb-4">
           <p className="text-error-clr">{error}</p>

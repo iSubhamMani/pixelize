@@ -8,45 +8,47 @@ import { Link } from "react-router-dom";
 
 const Navbar = () => {
   return (
-    <div className="hidden sm:flex sm:flex-col sm:fixed sm:w-[10%] md:w-[25%] sm:max-w-[270px] sm:left-0 sm:h-full sm:py-6 bg-secondary-clr text-text-clr-1">
-      <Logo />
-      <nav className="sm:mt-[4rem] sm:flex sm:flex-col sm:justify-start">
-        <Link
-          to={"/"}
-          className="hover:bg-hover-clr sm:py-4 sm:px-3 md:px-6 flex sm:justify-center md:justify-start items-center gap-4"
-        >
-          <img className="w-[1.6rem]" src={home} alt="" />
-          <span className="text-lg nav-text">Home</span>
-        </Link>
-        <Link
-          to={"/search"}
-          className="hover:bg-hover-clr sm:px-3 md:px-6 sm:py-4 flex sm:justify-center md:justify-start items-center gap-4"
-        >
-          <img className="w-[1.6rem]" src={search} alt="" />
-          <span className="text-lg nav-text">Search</span>
-        </Link>
-        <Link
-          to={"/new-post"}
-          className="hover:bg-hover-clr sm:px-3 md:px-6 sm:py-4 flex sm:justify-center md:justify-start items-center gap-4"
-        >
-          <img className="w-[1.6rem]" src={create} alt="" />
-          <span className="text-lg nav-text">New Post</span>
-        </Link>
-        <Link
-          to={"/liked-posts"}
-          className="hover:bg-hover-clr sm:px-3 md:px-6 sm:py-4 flex sm:justify-center md:justify-start items-center gap-4"
-        >
-          <img className="w-[1.6rem]" src={like} alt="" />
-          <span className="text-lg nav-text">Liked Posts</span>
-        </Link>
-        <Link
-          to={"/profile"}
-          className="hover:bg-hover-clr sm:px-3 md:px-6 sm:py-4 flex sm:justify-center md:justify-start items-center gap-4"
-        >
-          <img className="w-[1.6rem]" src={profile} alt="" />
-          <span className="text-lg nav-text">Profile</span>
-        </Link>
-      </nav>
+    <div className="hidden sm:flex sm:flex-col sm:w-[10%] md:w-[25%] sm:max-w-[270px] sm:py-6 bg-secondary-clr text-text-clr-1">
+      <div className="sticky top-[2rem]">
+        <Logo />
+        <nav className="sm:mt-[4rem] sm:flex sm:flex-col sm:justify-start">
+          <Link
+            to={"/"}
+            className="hover:bg-hover-clr sm:py-4 sm:px-3 md:px-6 flex sm:justify-center md:justify-start items-center gap-4"
+          >
+            <img className="w-[1.6rem]" src={home} alt="" />
+            <span className="text-lg nav-text">Home</span>
+          </Link>
+          <Link
+            to={"/search"}
+            className="hover:bg-hover-clr sm:px-3 md:px-6 sm:py-4 flex sm:justify-center md:justify-start items-center gap-4"
+          >
+            <img className="w-[1.6rem]" src={search} alt="" />
+            <span className="text-lg nav-text">Search</span>
+          </Link>
+          <Link
+            to={"/new-post"}
+            className="hover:bg-hover-clr sm:px-3 md:px-6 sm:py-4 flex sm:justify-center md:justify-start items-center gap-4"
+          >
+            <img className="w-[1.6rem]" src={create} alt="" />
+            <span className="text-lg nav-text">New Post</span>
+          </Link>
+          <Link
+            to={"/liked-posts"}
+            className="hover:bg-hover-clr sm:px-3 md:px-6 sm:py-4 flex sm:justify-center md:justify-start items-center gap-4"
+          >
+            <img className="w-[1.6rem]" src={like} alt="" />
+            <span className="text-lg nav-text">Liked Posts</span>
+          </Link>
+          <Link
+            to={"/profile"}
+            className="hover:bg-hover-clr sm:px-3 md:px-6 sm:py-4 flex sm:justify-center md:justify-start items-center gap-4"
+          >
+            <img className="w-[1.6rem]" src={profile} alt="" />
+            <span className="text-lg nav-text">Profile</span>
+          </Link>
+        </nav>
+      </div>
     </div>
   );
 };

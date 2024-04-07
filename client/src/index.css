@@ -61,9 +61,17 @@ body {
   grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
 }
 
+.icon {
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
 @media (min-width: 578px) {
   .posts-container {
     grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  }
+  .icon {
+    font-size: 1.5rem;
   }
 }
 

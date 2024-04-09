@@ -39,13 +39,13 @@ const UploadPost = () => {
       setLoading(false);
 
       if (
-        error.response.data?.status === 401 &&
-        error.response.data?.message === "No refresh token"
+        error.response?.data?.status === 401 &&
+        error.response?.data?.message === "No refresh token"
       )
         navigate("/login");
       else if (
-        error.response.data?.status === 401 &&
-        error.response.data?.message === "Access token expired"
+        error.response?.data?.status === 401 &&
+        error.response?.data?.message === "Access token expired"
       ) {
         handleTokenRenewal(handlePostUpload, () => {
           navigate("/login");

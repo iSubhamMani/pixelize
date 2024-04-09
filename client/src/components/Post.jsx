@@ -3,6 +3,7 @@ import { FaRegHeart } from "react-icons/fa6";
 import { AiOutlineComment } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import LazyImage from "./LazyImage";
+import { defaultProfilePhoto } from "../utils/constants";
 
 const Post = ({ post }) => {
   const { owner, caption, image, createdAt } = post;
@@ -13,15 +14,12 @@ const Post = ({ post }) => {
         <div className="rounded-full overflow-hidden w-[2rem] h-[2rem] sm:w-[3rem] sm:h-[3rem]">
           <img
             className="w-full h-full object-cover"
-            src={
-              owner?.profilePhoto ||
-              `https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg`
-            }
+            src={owner?.profilePhoto || defaultProfilePhoto}
             alt="pp"
           />
         </div>
         <div className="flex flex-col">
-          <Link to={`/${owner?.username}`}>
+          <Link to={`/u/${owner?.username}`}>
             <span className="line-clamp-1 text-text-clr-1 font-bold text-[0.9rem] sm:text-[1rem]">
               @{owner?.username}
             </span>

@@ -124,6 +124,24 @@ const getCurrentUser = asyncHandler(async (req, res) => {
   res.status(200).json(new ApiResponse(200, "User found", user));
 });
 
+const getUserByUsername = asyncHandler(async (req, res) => {
+  const { username } = req.params;
+
+  if (!username) {
+    throw new ApiError(400, "Username is required");
+  }
+
+  const user = await User.findOne({ username }).select(
+    "-password -refreshToken"
+  );
+
+  if (!user) {
+    throw new ApiError(404, "User not found");
+  }
+
+  res.status(200).json(new ApiResponse(200, "User found", user));
+});
+
 const renewToken = asyncHandler(async (req, res) => {
   const incomingRefreshToken = req.cookies?.refreshToken;
 
@@ -164,4 +182,10 @@ const renewToken = asyncHandler(async (req, res) => {
     );
 });
 
-export { registerUser, loginUser, getCurrentUser, renewToken };
+export {
+  registerUser,
+  loginUser,
+  getCurrentUser,
+  getUserByUsername,
+  renewToken,
+};

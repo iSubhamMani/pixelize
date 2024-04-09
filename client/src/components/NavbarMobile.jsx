@@ -4,8 +4,11 @@ import profile from "../../assets/profile.png";
 import search from "../../assets/search.png";
 import create from "../../assets/create.png";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const NavbarMobile = () => {
+  const { user } = useSelector((state) => state.user);
+
   return (
     <div className="sm:hidden sticky bottom-0 w-full bg-secondary-clr px-6 py-3">
       <nav className="flex items-center justify-between gap-2">
@@ -21,7 +24,7 @@ const NavbarMobile = () => {
         <Link to={"/liked-posts"}>
           <img className="w-[1.6rem]" src={like} alt="" />
         </Link>
-        <Link to={"/profile"}>
+        <Link to={`/u/${user?.username}`}>
           <img className="w-[1.6rem]" src={profile} alt="" />
         </Link>
       </nav>

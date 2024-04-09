@@ -73,15 +73,21 @@ const Feed = () => {
   };
 
   return isAuthenticated ? (
-    <div className="px-4 py-8 flex-1">
+    <div className="px-4 py-6 flex-1">
       <InfiniteScroll
         dataLength={posts.length}
         next={fetchPosts}
         hasMore={hasMore}
-        loader={<Spinner />}
+        loader={
+          <div className="my-4 flex justify-center items-center">
+            <Spinner />
+          </div>
+        }
         scrollThreshold={0.95}
         endMessage={
-          <p className="text-center text-text-clr-1">No more posts</p>
+          <p className="my-4 text-center text-text-clr-1">
+            Oops! looks like you&apos;ve reached the end
+          </p>
         }
         style={{ overflow: "hidden" }}
       >

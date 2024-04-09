@@ -8,7 +8,7 @@ const Main = () => {
   const { user } = useSelector((store) => store.user);
 
   return (
-    <div className="min-h-[100vh] bg-primary-clr relative flex flex-col sm:flex-row">
+    <div className="min-h-[100vh] bg-primary-clr flex flex-col sm:flex-row">
       {user && (
         <div className="py-4 sm:hidden">
           <Logo />

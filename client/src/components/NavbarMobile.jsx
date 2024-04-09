@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 
 const NavbarMobile = () => {
   return (
-    <div className="sm:hidden fixed bottom-0 w-full bg-secondary-clr px-6 py-3">
+    <div className="sm:hidden sticky bottom-0 w-full bg-secondary-clr px-6 py-3">
       <nav className="flex items-center justify-between gap-2">
         <Link to={"/"}>
           <img className="w-[1.6rem]" src={home} alt="" />

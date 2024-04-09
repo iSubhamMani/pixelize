@@ -6,6 +6,7 @@ import { Provider } from "react-redux";
 import appStore from "./redux/appStore";
 import NewPost from "./pages/NewPost";
 import Main from "./components/Main";
+import Profile from "./pages/Profile";
 
 function App() {
   const appRouter = createBrowserRouter([
@@ -20,6 +21,10 @@ function App() {
         {
           path: "/new-post",
           element: <NewPost />,
+        },
+        {
+          path: "/u/:username",
+          element: <Profile />,
         },
       ],
     },

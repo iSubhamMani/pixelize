@@ -1,6 +1,7 @@
 import asyncHandler from "../utils/asyncHandler.js";
 import ApiError from "../utils/ApiError.js";
 import { Post } from "../models/post.model.js";
+import { User } from "../models/user.model.js";
 import ApiResponse from "../utils/ApiResponse.js";
 import { uploadPhotoToCloudinary } from "../utils/cloudinary.js";
 import mongoose from "mongoose";
@@ -92,6 +93,11 @@ const getAllPosts = asyncHandler(async (req, res) => {
         },
       },
     },
+    {
+      $sort: {
+        createdAt: -1,
+      },
+    },
   ];
 
   const posts = await Post.aggregatePaginate(Post.aggregate(pipeline), options);
@@ -103,4 +109,39 @@ const getAllPosts = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, "Posts fetched successfully", posts));
 });
 
-export { uploadPost, getAllPosts };
+const getUserPosts = asyncHandler(async (req, res) => {
+  const { username } = req.params;
+  const { page = 1, limit = 4 } = req.query;
+
+  if (!username) throw new ApiError(400, "Username is required");
+
+  const options = {
+    page,
+    limit,
+  };
+
+  const user = await User.findOne({ username }).select(
+    "-password -refreshToken"
+  );
+
+  const pipeline = [
+    {
+      $match: {
+        owner: user?._id,
+      },
+    },
+    {
+      $sort: {
+        createdAt: -1,
+      },
+    },
+  ];
+
+  const posts = await Post.aggregatePaginate(Post.aggregate(pipeline), options);
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, "User posts fetched successfully", posts));
+});
+
+export { uploadPost, getAllPosts, getUserPosts };

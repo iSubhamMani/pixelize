@@ -66,12 +66,19 @@ body {
   cursor: pointer;
 }
 
+.icon-mark {
+  font-size: 1.2rem;
+}
+
 @media (min-width: 578px) {
   .posts-container {
     grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
   }
   .icon {
     font-size: 1.5rem;
+  }
+  .icon-mark {
+    font-size: 1.8rem;
   }
 }
 

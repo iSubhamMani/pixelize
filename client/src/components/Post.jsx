@@ -11,12 +11,8 @@ const Post = ({ post }) => {
   return (
     <div className="my-2 flex flex-col shadow-lg">
       <div className="flex gap-3">
-        <div className="rounded-full overflow-hidden w-[2rem] h-[2rem] sm:w-[3rem] sm:h-[3rem]">
-          <img
-            className="w-full h-full object-cover"
-            src={owner?.profilePhoto || defaultProfilePhoto}
-            alt="pp"
-          />
+        <div className="rounded-full overflow-hidden w-[2rem] h-[2rem] sm:w-[3rem] sm:h-[3rem] border-2 sm:border-[3px] border-accent-clr">
+          <LazyImage image={owner?.profilePhoto || defaultProfilePhoto} />
         </div>
         <div className="flex flex-col">
           <Link to={`/u/${owner?.username}`}>

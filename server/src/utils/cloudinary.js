@@ -24,4 +24,38 @@ const uploadPhotoToCloudinary = async (imageLocalPath) => {
   }
 };
 
-export { uploadPhotoToCloudinary };
+const uploadProfilePicToCloudinary = async (imageLocalPath) => {
+  try {
+    if (!imageLocalPath) return;
+
+    const response = await cloudinary.uploader.upload(imageLocalPath, {
+      folder: "pixelize/profilePics",
+      resource_type: "image",
+    });
+
+    fs.unlinkSync(imageLocalPath);
+    return response;
+  } catch (error) {
+    fs.unlinkSync(imageLocalPath);
+    return;
+  }
+};
+
+const deleteProfilePicFromCloudinary = async (publicId) => {
+  try {
+    if (!publicId) return;
+
+    const response = await cloudinary.uploader.destroy(publicId, {
+      resource_type: "image",
+    });
+    return response;
+  } catch (error) {
+    return;
+  }
+};
+
+export {
+  uploadPhotoToCloudinary,
+  uploadProfilePicToCloudinary,
+  deleteProfilePicFromCloudinary,
+};

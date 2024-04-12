@@ -9,6 +9,11 @@ import {
   validateUserName,
 } from "../utils/validate.js";
 import jwt from "jsonwebtoken";
+import {
+  deleteProfilePicFromCloudinary,
+  uploadProfilePicToCloudinary,
+} from "../utils/cloudinary.js";
+import { getCloudinaryPublicId } from "../utils/getCloudinaryId.js";
 
 const generateAccessTokenAndRefreshToken = async (userId) => {
   try {
@@ -142,6 +147,43 @@ const getUserByUsername = asyncHandler(async (req, res) => {
   res.status(200).json(new ApiResponse(200, "User found", user));
 });
 
+const updateUserProfilePicture = asyncHandler(async (req, res) => {
+  const newProfilePicLocalPath = req.file?.path;
+
+  if (!newProfilePicLocalPath)
+    throw new ApiError(400, "Profile picture is required");
+
+  const newProfilePhoto = await uploadProfilePicToCloudinary(
+    newProfilePicLocalPath
+  );
+
+  if (!newProfilePhoto?.url)
+    throw new ApiError(500, "Error uploading profile picture");
+
+  const user = await User.findByIdAndUpdate(
+    req.user?._id,
+    { $set: { profilePhoto: newProfilePhoto?.url } },
+    { new: true }
+  ).select("-password -refreshToken");
+
+  if (!user) throw new ApiError(500, "Error updating profile picture");
+
+  const oldProfilePic = req.user?.profilePhoto;
+
+  if (oldProfilePic) {
+    // delete old image from cloudinary
+    const publicId = `pixelize/profilePics/${getCloudinaryPublicId(
+      oldProfilePic
+    )}`;
+    const response = await deleteProfilePicFromCloudinary(publicId);
+
+    if (response.result !== "ok")
+      throw new ApiError(500, "Error deleting old avatar");
+  }
+
+  res.status(200).json(new ApiResponse(200, "Profile picture updated", user));
+});
+
 const renewToken = asyncHandler(async (req, res) => {
   const incomingRefreshToken = req.cookies?.refreshToken;
 
@@ -187,5 +229,6 @@ export {
   loginUser,
   getCurrentUser,
   getUserByUsername,
+  updateUserProfilePicture,
   renewToken,
 };

@@ -85,7 +85,7 @@ const UploadPost = () => {
       <div className="mb-8 flex justify-center">
         <input
           id="file-upload"
-          accept="image/png, image/jpeg"
+          accept="image/png, image/jpeg, image/jpg"
           className="hidden"
           type="file"
           onChange={(e) => setImage(e.target.files[0])}

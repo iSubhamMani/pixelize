@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { defaultProfilePhoto } from "../utils/constants";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { ClientError } from "../utils/ClientError";
@@ -10,17 +10,23 @@ import { addPosts, removeAllPosts } from "../redux/slices/profileSlice";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Spinner from "../components/Spinner";
 import ProfilePost from "../components/ProfilePost";
+import handleTokenRenewal from "../utils/handleTokenRenewal";
+import LazyImage from "../components/LazyImage";
 
 const Profile = () => {
   const { username } = useParams();
   const { user } = useSelector((state) => state.user);
   const [isCurrentUser, setIsCurrentUser] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [profileUpdate, setProfileUpdate] = useState(false);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(false);
+  const [profilePic, setProfilePic] = useState(null);
+  const [error, setError] = useState(null);
 
   const [userDetails, setUserDetails] = useState(null);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { posts } = useSelector((state) => state.profile);
 
@@ -39,8 +45,13 @@ const Profile = () => {
     getUserPosts();
   }, [page]);
 
+  useEffect(() => {
+    handleProfileEdit();
+  }, [profilePic]);
+
   const getUserDetails = async () => {
     try {
+      setError(null);
       setLoading(true);
       if (!username) throw new ClientError("Username is required");
 
@@ -51,12 +62,13 @@ const Profile = () => {
       }
     } catch (error) {
       setLoading(false);
-      console.log(error);
+      setError("Something went wrong");
     }
   };
 
   const getUserPosts = async () => {
     try {
+      setError(null);
       const response = await axios.get(
         `/api/v1/posts/user-posts/${username}?page=${page}`
       );
@@ -67,7 +79,67 @@ const Profile = () => {
         setHasMore(response?.data?.data?.hasNextPage);
       }
     } catch (error) {
-      console.log(error);
+      setError("Something went wrong");
+    }
+  };
+
+  const handleProfileEdit = async () => {
+    if (!profilePic) return;
+
+    try {
+      setProfileUpdate(true);
+      setError(null);
+      const formData = new FormData();
+      formData.append("profilePhoto", profilePic);
+
+      const response = await axios.put(
+        "/api/v1/users/update-profile-picture",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      if (response) {
+        setProfileUpdate(false);
+        getUserDetails();
+      }
+    } catch (error) {
+      setProfileUpdate(false);
+
+      if (
+        error.response?.data?.status === 401 &&
+        error.response?.data?.message === "No refresh token"
+      )
+        navigate("/login");
+      else if (
+        error.response?.data?.status === 401 &&
+        error.response?.data?.message === "Access token expired"
+      ) {
+        handleTokenRenewal(handleProfileEdit, () => {
+          navigate("/login");
+        });
+      }
+
+      if (error.response?.data?.message === "Invalid file type")
+        setError(error.response?.data?.message);
+      else if (error.response?.data?.message === "Profile picture is required")
+        setError(error.response?.data?.message);
+      else if (
+        error.response?.data?.message === "Error uploading profile picture"
+      )
+        setError(error.response?.data?.message);
+      else if (
+        error.response?.data?.message === "Error updating profile picture"
+      )
+        setError(error.response?.data?.message);
+      else if (error.response?.data?.message === "Error deleting old avatar")
+        setError(error.response?.data?.message);
+      else if (error.response?.data?.message === "Access token expired")
+        setError(null);
+      else setError(error.message);
     }
   };
 
@@ -83,12 +155,8 @@ const Profile = () => {
           <span>500K</span>
           <span>followers</span>
         </div>
-        <div className="overflow-hidden w-[8rem] sm:[10rem] md:w-[12rem] min-w-[6rem] rounded-full">
-          <img
-            className="w-full h-full object-cover"
-            src={userDetails?.profilePhoto || defaultProfilePhoto}
-            alt=""
-          />
+        <div className="overflow-hidden w-[8rem] h-[8rem] sm:w-[10rem] sm:h-[10rem] md:w-[12rem] md:h-[12rem] min-w-[6rem] min-h-[6rem] rounded-full">
+          <LazyImage image={userDetails?.profilePhoto || defaultProfilePhoto} />
         </div>
         <div className="flex flex-col gap-1 text-sm md:text-lg text-text-clr-1 font-medium text-center">
           <span>102K</span>
@@ -106,11 +174,32 @@ const Profile = () => {
         </p>
       </div>
       {isCurrentUser ? (
-        <div className="flex justify-center">
-          <button className="bg-secondary-clr font-medium hover:bg-hover-clr transition duration-200 ease-in-out text-white text-[0.9rem] sm:text-[1rem] px-4 py-2 sm:px-6 sm:py-3 rounded-full">
-            Edit Profile
-          </button>
-        </div>
+        !profileUpdate ? (
+          <div className="flex justify-center">
+            <input
+              id="file-upload"
+              accept="image/png, image/jpeg, image/jpg"
+              className="hidden"
+              type="file"
+              onChange={(e) => setProfilePic(e.target.files[0])}
+            />
+            <label
+              className="cursor-pointer bg-secondary-clr font-medium hover:bg-hover-clr transition duration-200 ease-in-out text-white text-[0.9rem] sm:text-[1rem] px-4 py-2 sm:px-6 sm:py-3 rounded-full"
+              htmlFor="file-upload"
+            >
+              Edit Profile Photo
+            </label>
+            {error && (
+              <div className="text-center my-4">
+                <p className="text-error-clr">{error}</p>
+              </div>
+            )}
+          </div>
+        ) : (
+          <div className="px-4 py-6 flex-1 sm:mt-8 flex justify-center items-center">
+            <Loading />
+          </div>
+        )
       ) : (
         <div className="flex justify-center">
           <button className="bg-secondary-clr font-medium hover:bg-hover-clr transition duration-200 ease-in-out text-text-clr-2 text-[0.9rem] sm:text-[1rem] px-4 py-2 sm:px-6 sm:py-3 rounded-full">

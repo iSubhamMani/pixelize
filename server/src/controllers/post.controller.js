@@ -102,8 +102,6 @@ const getAllPosts = asyncHandler(async (req, res) => {
 
   const posts = await Post.aggregatePaginate(Post.aggregate(pipeline), options);
 
-  if (!posts) throw new ApiError(404, "No posts found");
-
   return res
     .status(200)
     .json(new ApiResponse(200, "Posts fetched successfully", posts));

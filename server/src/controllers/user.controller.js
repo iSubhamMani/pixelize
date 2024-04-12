@@ -26,7 +26,6 @@ const generateAccessTokenAndRefreshToken = async (userId) => {
 
     return { accessToken, refreshToken };
   } catch (error) {
-    console.log(error);
     throw new ApiError(500, "Internal Server Error");
   }
 };
@@ -152,6 +151,18 @@ const updateUserProfilePicture = asyncHandler(async (req, res) => {
 
   if (!newProfilePicLocalPath)
     throw new ApiError(400, "Profile picture is required");
+
+  const fileExtension = newProfilePicLocalPath.split(".").pop();
+
+  if (
+    !(
+      fileExtension === "jpg" ||
+      fileExtension === "jpeg" ||
+      fileExtension === "png"
+    )
+  ) {
+    throw new ApiError(400, "Invalid file type");
+  }
 
   const newProfilePhoto = await uploadProfilePicToCloudinary(
     newProfilePicLocalPath

@@ -21,6 +21,7 @@ const Feed = () => {
 
   const { user } = useSelector((state) => state.user);
   const { posts, hasMore, page } = useSelector((state) => state.feed);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     verifyUser();
@@ -68,35 +69,62 @@ const Feed = () => {
         dispatch(setHasMore(response.data?.data?.hasNextPage));
       }
     } catch (error) {
-      console.log(error);
+      if (
+        error.response?.data?.status === 401 &&
+        error.response?.data?.message === "No refresh token"
+      )
+        navigate("/login");
+      else if (
+        error.response?.data?.status === 401 &&
+        error.response?.data?.message === "Access token expired"
+      ) {
+        handleTokenRenewal(fetchPosts, () => {
+          navigate("/login");
+        });
+      }
+
+      if (error.response?.data?.message === "Access token expired")
+        setError(null);
+      else setError(error.message);
     }
   };
 
   return isAuthenticated ? (
     <div className="px-4 py-6 flex-1">
-      <InfiniteScroll
-        dataLength={posts.length}
-        next={fetchPosts}
-        hasMore={hasMore}
-        loader={
-          <div className="my-4 flex justify-center items-center">
-            <Spinner />
-          </div>
-        }
-        scrollThreshold={0.95}
-        endMessage={
-          <p className="my-4 text-center text-text-clr-1">
-            Oops! looks like you&apos;ve reached the end
-          </p>
-        }
-        style={{ overflow: "hidden" }}
-      >
-        <div className="posts-container gap-4">
-          {posts.map((post) => {
-            return <Post key={post._id} post={post} />;
-          })}
+      {error && (
+        <div className="text-center my-4">
+          <p className="text-error-clr">{error}</p>
         </div>
-      </InfiniteScroll>
+      )}
+      {posts.length !== 0 ? (
+        <InfiniteScroll
+          dataLength={posts.length}
+          next={fetchPosts}
+          hasMore={hasMore}
+          loader={
+            <div className="my-4 flex justify-center items-center">
+              <Spinner />
+            </div>
+          }
+          scrollThreshold={0.95}
+          endMessage={
+            <p className="my-4 text-center text-text-clr-1">
+              Oops! looks like you&apos;ve reached the end
+            </p>
+          }
+          style={{ overflow: "hidden" }}
+        >
+          <div className="posts-container gap-4">
+            {posts.map((post) => {
+              return <Post key={post._id} post={post} />;
+            })}
+          </div>
+        </InfiniteScroll>
+      ) : (
+        <div>
+          <p className="text-center text-text-clr-1">No posts found</p>
+        </div>
+      )}
     </div>
   ) : (
     <Loading />

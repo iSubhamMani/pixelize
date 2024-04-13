@@ -155,7 +155,7 @@ const Profile = () => {
           <span>500K</span>
           <span>followers</span>
         </div>
-        <div className="overflow-hidden w-[8rem] h-[8rem] sm:w-[10rem] sm:h-[10rem] md:w-[12rem] md:h-[12rem] min-w-[6rem] min-h-[6rem] rounded-full">
+        <div className="overflow-hidden w-[8rem] h-[8rem] sm:w-[10rem] sm:h-[10rem] md:w-[12rem] md:h-[12rem] min-w-[6rem] min-h-[6rem] rounded-full border-4 sm:border-[6px] border-secondary-clr">
           <LazyImage image={userDetails?.profilePhoto || defaultProfilePhoto} />
         </div>
         <div className="flex flex-col gap-1 text-sm md:text-lg text-text-clr-1 font-medium text-center">

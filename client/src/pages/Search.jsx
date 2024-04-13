@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import SearchResult from "../components/SearchResult";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,12 +7,14 @@ import {
   setSearchQuery,
   setSearchResults,
 } from "../redux/slices/searchSlice";
+import Loading from "../components/Loading";
 
 const Search = () => {
   const { searchQuery, searchResults, error } = useSelector(
     (state) => state.search
   );
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (searchQuery === "" || !searchQuery) {
@@ -31,14 +33,17 @@ const Search = () => {
   const getSearchResults = async () => {
     try {
       setError(null);
+      setLoading(true);
       const response = await axios.get(
         `/api/v1/search/get-search-results?q=${searchQuery}`
       );
 
       if (response?.data?.data?.length !== 0) {
         dispatch(setError(null));
+        setLoading(false);
         dispatch(setSearchResults(response?.data?.data));
       } else {
+        setLoading(false);
         dispatch(setError("No users found"));
         dispatch(setSearchResults([]));
       }
@@ -47,9 +52,11 @@ const Search = () => {
         error.response?.data?.status === 400 &&
         error.response?.data?.message === "Search query is required"
       ) {
+        setLoading(false);
         dispatch(setError(null));
         dispatch(setSearchResults([]));
       } else {
+        setLoading(false);
         dispatch(setError("Something went wrong"));
         dispatch(setSearchResults([]));
       }
@@ -70,6 +77,11 @@ const Search = () => {
       {error && (
         <div className="my-4">
           <p className="text-text-clr-4 text-center">{error}</p>
+        </div>
+      )}
+      {loading && (
+        <div className="my-6 flex justify-center items-center">
+          <Loading />
         </div>
       )}
       <div className="w-full flex flex-col items-center my-6 gap-6">

@@ -18,6 +18,7 @@ const Profile = () => {
   const { user } = useSelector((state) => state.user);
   const [isCurrentUser, setIsCurrentUser] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [postsLoading, setPostsLoading] = useState(true);
   const [profileUpdate, setProfileUpdate] = useState(false);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(false);
@@ -69,16 +70,19 @@ const Profile = () => {
   const getUserPosts = async () => {
     try {
       setError(null);
+      setPostsLoading(true);
       const response = await axios.get(
         `/api/v1/posts/user-posts/${username}?page=${page}`
       );
 
       if (response) {
+        setPostsLoading(false);
         dispatch(addPosts(response?.data?.data?.docs));
         setPage(page + 1);
         setHasMore(response?.data?.data?.hasNextPage);
       }
     } catch (error) {
+      setPostsLoading(false);
       setError("Something went wrong");
     }
   };
@@ -211,6 +215,11 @@ const Profile = () => {
         <div>
           <FaRegImage className="text-text-clr-1 icon-mark" />
         </div>
+        {postsLoading && (
+          <div className="my-6 flex justify-center items-center">
+            <Loading />
+          </div>
+        )}
         {posts.length !== 0 ? (
           <InfiniteScroll
             dataLength={posts.length}

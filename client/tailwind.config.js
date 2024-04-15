@@ -13,6 +13,7 @@ export default {
         "text-clr-4": "var(--text-clr-4)",
         "hover-clr": "var(--hover-clr)",
         "error-clr": "var(--error-clr)",
+        "like-clr": "var(--like-clr)",
       },
     },
   },

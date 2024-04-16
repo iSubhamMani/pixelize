@@ -93,7 +93,7 @@ const Post = ({ post }) => {
   };
 
   return (
-    <div className="my-2 flex flex-col shadow-lg">
+    <div className="my-2 flex flex-col shadow-lg ">
       <div className="flex gap-3">
         <div className="rounded-full overflow-hidden w-[2rem] h-[2rem] sm:w-[3rem] sm:h-[3rem] border-2 sm:border-[3px] border-accent-clr">
           <LazyImage image={owner?.profilePhoto || defaultProfilePhoto} />
@@ -125,7 +125,19 @@ const Post = ({ post }) => {
               {likeCount[post?._id]}
             </span>
           ) : null}
-          <AiOutlineComment className="text-text-clr-1 icon" />
+          <Link
+            to={`/comments/${post?._id}`}
+            state={{
+              postDetails: {
+                postId: post?._id,
+                owner,
+                caption,
+                createdAt,
+              },
+            }}
+          >
+            <AiOutlineComment className="text-text-clr-1 icon" />
+          </Link>
         </div>
       </div>
       <div className="bg-secondary-clr px-2 py-2 sm:px-4 sm:py-3">

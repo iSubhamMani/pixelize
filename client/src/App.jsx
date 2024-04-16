@@ -8,6 +8,7 @@ import NewPost from "./pages/NewPost";
 import Main from "./components/Main";
 import Profile from "./pages/Profile";
 import Search from "./pages/Search";
+import Comment from "./pages/Comment";
 
 function App() {
   const appRouter = createBrowserRouter([
@@ -30,6 +31,10 @@ function App() {
         {
           path: "/search",
           element: <Search />,
+        },
+        {
+          path: "/comments/:postId",
+          element: <Comment />,
         },
       ],
     },

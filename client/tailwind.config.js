@@ -11,6 +11,7 @@ export default {
         "text-clr-2": "var(--text-clr-2)",
         "text-clr-3": "var(--text-clr-3)",
         "text-clr-4": "var(--text-clr-4)",
+        "text-clr-5": "var(--text-clr-5)",
         "hover-clr": "var(--hover-clr)",
         "error-clr": "var(--error-clr)",
         "like-clr": "var(--like-clr)",

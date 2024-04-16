@@ -129,6 +129,31 @@ const getUserPosts = asyncHandler(async (req, res) => {
       },
     },
     {
+      $lookup: {
+        from: "users",
+        localField: "owner",
+        foreignField: "_id",
+        as: "owner",
+        pipeline: [
+          {
+            $project: {
+              _id: 1,
+              fullname: 1,
+              username: 1,
+              profilePhoto: 1,
+            },
+          },
+        ],
+      },
+    },
+    {
+      $addFields: {
+        owner: {
+          $first: "$owner",
+        },
+      },
+    },
+    {
       $sort: {
         createdAt: -1,
       },

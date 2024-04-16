@@ -15,11 +15,13 @@ import errorHandler from "./utils/errorHandler.js";
 import postRouter from "./routes/post.route.js";
 import searchRouter from "./routes/search.route.js";
 import likeRouter from "./routes/like.route.js";
+import commentRouter from "./routes/comment.route.js";
 
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/posts", postRouter);
 app.use("/api/v1/search", searchRouter);
 app.use("/api/v1/likes", likeRouter);
+app.use("/api/v1/comments", commentRouter);
 
 app.use(errorHandler);
 

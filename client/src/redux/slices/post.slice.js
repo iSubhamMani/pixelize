@@ -5,6 +5,7 @@ const postSlice = createSlice({
   initialState: {
     likedPosts: {},
     cachedPosts: {},
+    profileCachedPosts: {},
     likeCount: {},
   },
   reducers: {
@@ -17,6 +18,15 @@ const postSlice = createSlice({
     addCachedPosts: (state, action) => {
       state.cachedPosts = { ...state.cachedPosts, ...action.payload };
     },
+    addProfileCachedPosts: (state, action) => {
+      state.profileCachedPosts = {
+        ...state.profileCachedPosts,
+        ...action.payload,
+      };
+    },
+    removeProfileCachedPosts: (state) => {
+      state.profileCachedPosts = {};
+    },
     setPostLikesCount: (state, action) => {
       state.likeCount = { ...state.likeCount, ...action.payload };
     },
@@ -28,5 +38,7 @@ export const {
   deleteLikedPosts,
   addCachedPosts,
   setPostLikesCount,
+  addProfileCachedPosts,
+  removeProfileCachedPosts,
 } = postSlice.actions;
 export default postSlice.reducer;

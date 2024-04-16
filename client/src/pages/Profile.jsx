@@ -5,13 +5,14 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { ClientError } from "../utils/ClientError";
 import Loading from "../components/Loading";
-import { FaRegImage } from "react-icons/fa6";
 import { addPosts, removeAllPosts } from "../redux/slices/profileSlice";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Spinner from "../components/Spinner";
 import ProfilePost from "../components/ProfilePost";
 import handleTokenRenewal from "../utils/handleTokenRenewal";
 import LazyImage from "../components/LazyImage";
+import { IoMdRefresh } from "react-icons/io";
+import { removeProfileCachedPosts } from "../redux/slices/post.slice";
 
 const Profile = () => {
   const { username } = useParams();
@@ -147,6 +148,11 @@ const Profile = () => {
     }
   };
 
+  const handleProfileRefresh = async () => {
+    dispatch(removeProfileCachedPosts());
+    setPage(1);
+  };
+
   return !loading ? (
     <div className="px-4 py-6 flex-1 sm:mt-8">
       <div className="text-center mb-6">
@@ -212,8 +218,10 @@ const Profile = () => {
         </div>
       )}
       <div className="my-8 px-6">
-        <div>
-          <FaRegImage className="text-text-clr-1 icon-mark" />
+        <div className="flex gap-4">
+          <button onClick={handleProfileRefresh}>
+            <IoMdRefresh className="text-text-clr-1 icon-mark" />
+          </button>
         </div>
         {postsLoading && (
           <div className="my-6 flex justify-center items-center">
@@ -240,7 +248,7 @@ const Profile = () => {
           >
             <div className="posts-container gap-4 my-4">
               {posts.map((post) => {
-                return <ProfilePost key={post?._id} image={post?.image} />;
+                return <ProfilePost key={post?._id} post={post} />;
               })}
             </div>
           </InfiniteScroll>

@@ -61,6 +61,23 @@ const Comment = () => {
     }
   };
 
+  const deleteComment = async (deletedComment) => {
+    const response = await axios.delete(
+      `/api/v1/comments/delete-comment/${deletedComment?._id}`
+    );
+
+    if (
+      response?.data?.status === 200 &&
+      response?.data?.message === "Comment deleted successfully"
+    ) {
+      // remove from UI
+      const updateComments = comments.filter(
+        (comment) => comment?._id !== deletedComment?._id
+      );
+      setComments(updateComments);
+    }
+  };
+
   return (
     <div className="flex-1">
       <div className="min-h-screen pt-6 bg-text-clr-5 w-full sm:w-[70%] min-w-[15.5rem] max-w-[42rem] mx-auto flex flex-col">
@@ -101,7 +118,14 @@ const Comment = () => {
             <p className="text-center text-text-clr-4 my-4">No comments yet</p>
           ) : (
             comments.map((comment) => {
-              return <PostComment comment={comment} key={comment?._id} />;
+              return (
+                <PostComment
+                  postId={postId}
+                  comment={comment}
+                  onDelete={deleteComment}
+                  key={comment?._id}
+                />
+              );
             })
           )}
         </div>

@@ -5,8 +5,12 @@ import LazyImage from "./LazyImage";
 import { AiFillDelete } from "react-icons/ai";
 import { useSelector } from "react-redux";
 
-const PostComment = ({ comment }) => {
+const PostComment = ({ comment, onDelete }) => {
   const { user } = useSelector((state) => state.user);
+
+  const handleDeleteComment = () => {
+    onDelete(comment);
+  };
 
   return (
     <div className="flex items-start gap-3 my-6">
@@ -36,7 +40,7 @@ const PostComment = ({ comment }) => {
       </div>
       {comment?.owner?._id === user?._id && (
         <div>
-          <button>
+          <button onClick={handleDeleteComment}>
             <AiFillDelete className="text-error-clr text-[1rem] sm:text-[1.25rem]" />
           </button>
         </div>

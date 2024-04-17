@@ -12,8 +12,11 @@ const profileSlice = createSlice({
     removeAllPosts: (state) => {
       state.posts = [];
     },
+    deletePost: (state, action) => {
+      state.posts = state.posts.filter((post) => post._id !== action.payload);
+    },
   },
 });
 
-export const { addPosts, removeAllPosts } = profileSlice.actions;
+export const { addPosts, removeAllPosts, deletePost } = profileSlice.actions;
 export default profileSlice.reducer;

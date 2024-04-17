@@ -1,5 +1,5 @@
 import home from "../../assets/home.png";
-import like from "../../assets/like.png";
+import logout from "../../assets/logout.png";
 import profile from "../../assets/profile.png";
 import search from "../../assets/search.png";
 import create from "../../assets/create.png";
@@ -21,12 +21,12 @@ const NavbarMobile = () => {
         <Link to={"/new-post"}>
           <img className="w-[1.6rem]" src={create} alt="" />
         </Link>
-        <Link to={"/liked-posts"}>
-          <img className="w-[1.6rem]" src={like} alt="" />
-        </Link>
         <Link to={`/u/${user?.username}`}>
           <img className="w-[1.6rem]" src={profile} alt="" />
         </Link>
+        <div className="cursor-pointer">
+          <img className="w-[1.6rem]" src={logout} alt="" />
+        </div>
       </nav>
     </div>
   );

@@ -3,6 +3,7 @@ import {
   getCurrentUser,
   getUserByUsername,
   loginUser,
+  logoutUser,
   registerUser,
   renewToken,
   updateUserProfilePicture,
@@ -14,6 +15,7 @@ const userRouter = Router();
 
 userRouter.route("/register").post(registerUser);
 userRouter.route("/login").post(loginUser);
+userRouter.route("/logout").post(verifyToken, logoutUser);
 userRouter.route("/current-user").get(verifyToken, getCurrentUser);
 userRouter.route("/renew-token").post(renewToken);
 userRouter.route("/get-user/:username").get(verifyToken, getUserByUsername);

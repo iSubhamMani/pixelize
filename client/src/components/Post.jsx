@@ -93,7 +93,7 @@ const Post = ({ post }) => {
   };
 
   return (
-    <div className="my-2 flex flex-col shadow-lg ">
+    <div className="my-2 flex flex-col shadow-lg max-h-[600px]">
       <div className="flex gap-3">
         <div className="rounded-full overflow-hidden w-[2rem] h-[2rem] sm:w-[3rem] sm:h-[3rem] border-2 sm:border-[3px] border-accent-clr">
           <LazyImage image={owner?.profilePhoto || defaultProfilePhoto} />

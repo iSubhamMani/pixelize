@@ -90,7 +90,7 @@ const ProfilePost = ({ post }) => {
   };
 
   return (
-    <div className="flex flex-col shadow-lg">
+    <div className="flex flex-col shadow-lg max-h-[600px]">
       <div className="flex-1 rounded-sm overflow-hidden relative mt-3">
         <LazyImage image={image} />
         <div className="w-full absolute bottom-0 px-4 py-3 left-0 flex items-center gap-2 bg-gradient-to-r from-[#000] to-transparent">

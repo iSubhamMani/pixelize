@@ -3,11 +3,28 @@ import logout from "../../assets/logout.png";
 import profile from "../../assets/profile.png";
 import search from "../../assets/search.png";
 import create from "../../assets/create.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import axios from "axios";
 
 const NavbarMobile = () => {
   const { user } = useSelector((state) => state.user);
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      const response = await axios.post(`/api/v1/users/logout`);
+
+      if (
+        response.data.status === 200 &&
+        response.data.message === "Logged out"
+      ) {
+        navigate("/login");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="sm:hidden sticky bottom-0 w-full bg-secondary-clr px-6 py-3">
@@ -24,7 +41,7 @@ const NavbarMobile = () => {
         <Link to={`/u/${user?.username}`}>
           <img className="w-[1.6rem]" src={profile} alt="" />
         </Link>
-        <div className="cursor-pointer">
+        <div onClick={handleLogout} className="cursor-pointer">
           <img className="w-[1.6rem]" src={logout} alt="" />
         </div>
       </nav>

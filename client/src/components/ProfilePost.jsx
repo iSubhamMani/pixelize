@@ -1,22 +1,27 @@
 import { AiOutlineComment } from "react-icons/ai";
 import LazyImage from "./LazyImage";
+import { AiFillDelete } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import { FaHeart, FaRegHeart } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   addLikedPosts,
   addProfileCachedPosts,
   deleteLikedPosts,
+  deleteProfileCachedPost,
   setPostLikesCount,
 } from "../redux/slices/post.slice";
 import axios from "axios";
+import { deletePost } from "../redux/slices/profileSlice";
 
 const ProfilePost = ({ post }) => {
   const { owner, caption, image, createdAt } = post;
   const { likedPosts, likeCount, profileCachedPosts } = useSelector(
     (state) => state.post
   );
+  const { user } = useSelector((state) => state.user);
+  const [isDeleted, setIsDeleted] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -89,6 +94,29 @@ const ProfilePost = ({ post }) => {
     }
   };
 
+  const handlePostDelete = async () => {
+    try {
+      setIsDeleted(true);
+      const response = await axios.post(
+        `/api/v1/posts/delete-post/${post._id}`,
+        {
+          postImage: image,
+        }
+      );
+
+      if (
+        response?.data?.status === 200 &&
+        response?.data?.message === "Post deleted successfully"
+      ) {
+        dispatch(deleteProfileCachedPost(post._id));
+        dispatch(deletePost(post._id));
+      }
+    } catch (error) {
+      setIsDeleted(false);
+      console.log(error);
+    }
+  };
+
   return (
     <div className="flex flex-col shadow-lg max-h-[600px]">
       <div className="flex-1 rounded-sm overflow-hidden relative mt-3">
@@ -120,6 +148,17 @@ const ProfilePost = ({ post }) => {
           >
             <AiOutlineComment className="text-text-clr-1 icon" />
           </Link>
+          {owner?._id === user?._id && (
+            <AiFillDelete
+              onClick={handlePostDelete}
+              className="text-error-clr icon"
+            />
+          )}
+          {isDeleted && (
+            <p className="text-error-clr text-[0.8rem] sm:text-[0.95rem]">
+              Deleting post..
+            </p>
+          )}
         </div>
       </div>
       <div className="bg-secondary-clr px-2 py-2 sm:px-4 sm:py-3">

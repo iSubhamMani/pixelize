@@ -3,8 +3,12 @@ import ApiError from "../utils/ApiError.js";
 import { Post } from "../models/post.model.js";
 import { User } from "../models/user.model.js";
 import ApiResponse from "../utils/ApiResponse.js";
-import { uploadPhotoToCloudinary } from "../utils/cloudinary.js";
+import {
+  deletePhotoFromCloduinary,
+  uploadPhotoToCloudinary,
+} from "../utils/cloudinary.js";
 import mongoose from "mongoose";
+import { getCloudinaryPublicId } from "../utils/getCloudinaryId.js";
 
 const uploadPost = asyncHandler(async (req, res) => {
   const { caption } = req.body;
@@ -167,4 +171,27 @@ const getUserPosts = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, "User posts fetched successfully", posts));
 });
 
-export { uploadPost, getAllPosts, getUserPosts };
+const deletePost = asyncHandler(async (req, res) => {
+  const { postId } = req.params;
+  const { postImage } = req.body;
+  if (!postId) throw new ApiError(400, "Post ID is required");
+
+  const response = await Post.findByIdAndDelete(postId);
+
+  if (!response) throw new ApiError(404, "Post not found");
+
+  // delete from cloudinary
+
+  const publicId = `pixelize/posts/${getCloudinaryPublicId(postImage)}`;
+
+  const cloudinaryResponse = await deletePhotoFromCloduinary(publicId);
+
+  if (cloudinaryResponse.result !== "ok")
+    throw new ApiError(500, "Failed to delete post");
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, "Post deleted successfully"));
+});
+
+export { uploadPost, getAllPosts, getUserPosts, deletePost };

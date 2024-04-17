@@ -54,8 +54,22 @@ const deleteProfilePicFromCloudinary = async (publicId) => {
   }
 };
 
+const deletePhotoFromCloduinary = async (publicId) => {
+  try {
+    if (!publicId) return;
+
+    const response = await cloudinary.uploader.destroy(publicId, {
+      resource_type: "image",
+    });
+    return response;
+  } catch (error) {
+    return;
+  }
+};
+
 export {
   uploadPhotoToCloudinary,
   uploadProfilePicToCloudinary,
   deleteProfilePicFromCloudinary,
+  deletePhotoFromCloduinary,
 };

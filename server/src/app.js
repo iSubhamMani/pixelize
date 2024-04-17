@@ -17,6 +17,10 @@ import searchRouter from "./routes/search.route.js";
 import likeRouter from "./routes/like.route.js";
 import commentRouter from "./routes/comment.route.js";
 
+app.route("/").get((req, res) => {
+  res.send("Welcome to Pixelize API");
+});
+
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/posts", postRouter);
 app.use("/api/v1/search", searchRouter);

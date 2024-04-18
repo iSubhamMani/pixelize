@@ -13,6 +13,7 @@ import {
 } from "../redux/slices/feedSlice";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Spinner from "../components/Spinner";
+import { apiBaseUrl } from "../utils/constants";
 
 const Feed = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -32,7 +33,9 @@ const Feed = () => {
 
   const verifyUser = async () => {
     try {
-      const response = await axios.get("/api/v1/users/current-user");
+      const response = await axios.get(
+        `${apiBaseUrl}/api/v1/users/current-user`
+      );
 
       if (
         response.data?.status === 200 &&
@@ -61,7 +64,9 @@ const Feed = () => {
 
   const fetchPosts = async () => {
     try {
-      const response = await axios.get(`/api/v1/posts/all-posts?page=${page}`);
+      const response = await axios.get(
+        `${apiBaseUrl}/api/v1/posts/all-posts?page=${page}`
+      );
 
       if (response) {
         dispatch(addPosts(response.data?.data?.docs));

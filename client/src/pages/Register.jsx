@@ -12,6 +12,7 @@ import {
 } from "../utils/validate";
 import axios from "axios";
 import Spinner from "../components/Spinner";
+import { apiBaseUrl } from "../utils/constants";
 
 const Register = () => {
   const [fullName, setFullName] = useState(null);
@@ -67,7 +68,7 @@ const Register = () => {
   const handleRequest = async () => {
     try {
       const response = await axios.post(
-        "/api/v1/users/register",
+        `${apiBaseUrl}/api/v1/users/register`,
         {
           fullname: fullName,
           username: userName,

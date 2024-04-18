@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { defaultProfilePhoto } from "../utils/constants";
+import { apiBaseUrl, defaultProfilePhoto } from "../utils/constants";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -57,7 +57,9 @@ const Profile = () => {
       setLoading(true);
       if (!username) throw new ClientError("Username is required");
 
-      const response = await axios.get(`/api/v1/users/get-user/${username}`);
+      const response = await axios.get(
+        `${apiBaseUrl}/api/v1/users/get-user/${username}`
+      );
       if (response) {
         setLoading(false);
         setUserDetails(response.data?.data);
@@ -73,7 +75,7 @@ const Profile = () => {
       setError(null);
       setPostsLoading(true);
       const response = await axios.get(
-        `/api/v1/posts/user-posts/${username}?page=${page}`
+        `${apiBaseUrl}/api/v1/posts/user-posts/${username}?page=${page}`
       );
 
       if (response) {
@@ -98,7 +100,7 @@ const Profile = () => {
       formData.append("profilePhoto", profilePic);
 
       const response = await axios.put(
-        "/api/v1/users/update-profile-picture",
+        `${apiBaseUrl}/api/v1/users/update-profile-picture`,
         formData,
         {
           headers: {

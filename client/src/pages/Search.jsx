@@ -8,6 +8,7 @@ import {
   setSearchResults,
 } from "../redux/slices/searchSlice";
 import Loading from "../components/Loading";
+import { apiBaseUrl } from "../utils/constants";
 
 const Search = () => {
   const { searchQuery, searchResults, error } = useSelector(
@@ -35,7 +36,7 @@ const Search = () => {
       setError(null);
       setLoading(true);
       const response = await axios.get(
-        `/api/v1/search/get-search-results?q=${searchQuery}`
+        `${apiBaseUrl}/api/v1/search/get-search-results?q=${searchQuery}`
       );
 
       if (response?.data?.data?.length !== 0) {

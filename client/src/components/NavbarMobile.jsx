@@ -6,6 +6,7 @@ import create from "../../assets/create.png";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import { apiBaseUrl } from "../utils/constants";
 
 const NavbarMobile = () => {
   const { user } = useSelector((state) => state.user);
@@ -13,7 +14,7 @@ const NavbarMobile = () => {
 
   const handleLogout = async () => {
     try {
-      const response = await axios.post(`/api/v1/users/logout`);
+      const response = await axios.post(`${apiBaseUrl}/api/v1/users/logout`);
 
       if (
         response.data.status === 200 &&

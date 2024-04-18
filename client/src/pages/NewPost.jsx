@@ -4,6 +4,7 @@ import { ClientError } from "../utils/ClientError";
 import Spinner from "../components/Spinner";
 import { useNavigate } from "react-router-dom";
 import handleTokenRenewal from "../utils/handleTokenRenewal";
+import { apiBaseUrl } from "../utils/constants";
 
 const UploadPost = () => {
   const [image, setImage] = useState(null);
@@ -24,11 +25,15 @@ const UploadPost = () => {
       formData.append("image", image);
       formData.append("caption", caption);
 
-      const response = await axios.post("/api/v1/posts/upload-post", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const response = await axios.post(
+        `${apiBaseUrl}/api/v1/posts/upload-post`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
 
       if (response) {
         setError(null);

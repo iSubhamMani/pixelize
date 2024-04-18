@@ -7,6 +7,7 @@ import { ClientError } from "../utils/ClientError";
 import { validatePassword, validateUserName } from "../utils/validate";
 import axios from "axios";
 import Spinner from "../components/Spinner";
+import { apiBaseUrl } from "../utils/constants";
 
 const Login = () => {
   const [userName, setUserName] = useState(null);
@@ -40,7 +41,7 @@ const Login = () => {
   const handleRequest = async () => {
     try {
       const response = await axios.post(
-        "/api/v1/users/login",
+        `${apiBaseUrl}/api/v1/users/login`,
         {
           username: userName,
           password,

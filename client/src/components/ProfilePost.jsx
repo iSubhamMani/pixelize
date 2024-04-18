@@ -14,6 +14,7 @@ import {
 } from "../redux/slices/post.slice";
 import axios from "axios";
 import { deletePost } from "../redux/slices/profileSlice";
+import { apiBaseUrl } from "../utils/constants";
 
 const ProfilePost = ({ post }) => {
   const { owner, caption, image, createdAt } = post;
@@ -40,7 +41,7 @@ const ProfilePost = ({ post }) => {
   const togglePostLike = async () => {
     try {
       const response = await axios.post(
-        "/api/v1/likes/toggle-like",
+        `${apiBaseUrl}/api/v1/likes/toggle-like`,
         {
           postId: post._id,
         },
@@ -68,7 +69,7 @@ const ProfilePost = ({ post }) => {
   const getCurrentUserLikeStatus = async () => {
     try {
       const response = await axios.get(
-        `/api/v1/likes/get-current-user-like-status?postId=${post._id}`
+        `${apiBaseUrl}/api/v1/likes/get-current-user-like-status?postId=${post._id}`
       );
 
       if (response) {
@@ -86,7 +87,7 @@ const ProfilePost = ({ post }) => {
 
   const getPostLikesCount = async () => {
     const response = await axios.get(
-      `/api/v1/likes/get-likes-count?postId=${post._id}`
+      `${apiBaseUrl}/api/v1/likes/get-likes-count?postId=${post._id}`
     );
 
     if (response) {
@@ -98,7 +99,7 @@ const ProfilePost = ({ post }) => {
     try {
       setIsDeleted(true);
       const response = await axios.post(
-        `/api/v1/posts/delete-post/${post._id}`,
+        `${apiBaseUrl}/api/v1/posts/delete-post/${post._id}`,
         {
           postImage: image,
         }

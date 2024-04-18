@@ -5,7 +5,7 @@ import { AiOutlineComment } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import LazyImage from "./LazyImage";
 import axios from "axios";
-import { defaultProfilePhoto } from "../utils/constants";
+import { apiBaseUrl, defaultProfilePhoto } from "../utils/constants";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -38,7 +38,7 @@ const Post = ({ post }) => {
   const togglePostLike = async () => {
     try {
       const response = await axios.post(
-        "/api/v1/likes/toggle-like",
+        `${apiBaseUrl}/api/v1/likes/toggle-like`,
         {
           postId: post._id,
         },
@@ -66,7 +66,7 @@ const Post = ({ post }) => {
   const getCurrentUserLikeStatus = async () => {
     try {
       const response = await axios.get(
-        `/api/v1/likes/get-current-user-like-status?postId=${post._id}`
+        `${apiBaseUrl}/api/v1/likes/get-current-user-like-status?postId=${post._id}`
       );
 
       if (response) {
@@ -84,7 +84,7 @@ const Post = ({ post }) => {
 
   const getPostLikesCount = async () => {
     const response = await axios.get(
-      `/api/v1/likes/get-likes-count?postId=${post._id}`
+      `${apiBaseUrl}/api/v1/likes/get-likes-count?postId=${post._id}`
     );
 
     if (response) {

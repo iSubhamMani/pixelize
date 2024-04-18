@@ -1,7 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import convertDateTime from "../utils/dateTimeConverter";
 import LazyImage from "../components/LazyImage";
-import { defaultProfilePhoto } from "../utils/constants";
+import { apiBaseUrl, defaultProfilePhoto } from "../utils/constants";
 import PostComment from "../components/PostComment";
 import { RiSendPlaneFill } from "react-icons/ri";
 import { useEffect, useRef, useState } from "react";
@@ -27,7 +27,7 @@ const Comment = () => {
     try {
       setAddCommentLoader(true);
       const response = await axios.post(
-        `/api/v1/comments/create-comment/${postId}`,
+        `${apiBaseUrl}/api/v1/comments/create-comment/${postId}`,
         {
           content: commentContent,
         }
@@ -48,7 +48,7 @@ const Comment = () => {
     try {
       setLoading(true);
       const response = await axios.get(
-        `/api/v1/comments/get-post-comments/${postId}`
+        `${apiBaseUrl}/api/v1/comments/get-post-comments/${postId}`
       );
 
       if (response) {
@@ -63,7 +63,7 @@ const Comment = () => {
 
   const deleteComment = async (deletedComment) => {
     const response = await axios.delete(
-      `/api/v1/comments/delete-comment/${deletedComment?._id}`
+      `${apiBaseUrl}/api/v1/comments/delete-comment/${deletedComment?._id}`
     );
 
     if (

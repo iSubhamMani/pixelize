@@ -32,6 +32,7 @@ const UploadPost = () => {
           headers: {
             "Content-Type": "multipart/form-data",
           },
+          withCredentials: true,
         }
       );
 

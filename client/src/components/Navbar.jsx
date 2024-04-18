@@ -15,7 +15,13 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     try {
-      const response = await axios.post(`${apiBaseUrl}/api/v1/users/logout`);
+      const response = await axios.post(
+        `${apiBaseUrl}/api/v1/users/logout`,
+        null,
+        {
+          withCredentials: true,
+        }
+      );
 
       if (
         response.data.status === 200 &&

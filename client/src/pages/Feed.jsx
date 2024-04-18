@@ -34,7 +34,10 @@ const Feed = () => {
   const verifyUser = async () => {
     try {
       const response = await axios.get(
-        `${apiBaseUrl}/api/v1/users/current-user`
+        `${apiBaseUrl}/api/v1/users/current-user`,
+        {
+          withCredentials: true,
+        }
       );
 
       if (
@@ -65,7 +68,10 @@ const Feed = () => {
   const fetchPosts = async () => {
     try {
       const response = await axios.get(
-        `${apiBaseUrl}/api/v1/posts/all-posts?page=${page}`
+        `${apiBaseUrl}/api/v1/posts/all-posts?page=${page}`,
+        {
+          withCredentials: true,
+        }
       );
 
       if (response) {

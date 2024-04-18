@@ -58,7 +58,10 @@ const Profile = () => {
       if (!username) throw new ClientError("Username is required");
 
       const response = await axios.get(
-        `${apiBaseUrl}/api/v1/users/get-user/${username}`
+        `${apiBaseUrl}/api/v1/users/get-user/${username}`,
+        {
+          withCredentials: true,
+        }
       );
       if (response) {
         setLoading(false);
@@ -75,7 +78,10 @@ const Profile = () => {
       setError(null);
       setPostsLoading(true);
       const response = await axios.get(
-        `${apiBaseUrl}/api/v1/posts/user-posts/${username}?page=${page}`
+        `${apiBaseUrl}/api/v1/posts/user-posts/${username}?page=${page}`,
+        {
+          withCredentials: true,
+        }
       );
 
       if (response) {
@@ -106,6 +112,7 @@ const Profile = () => {
           headers: {
             "Content-Type": "multipart/form-data",
           },
+          withCredentials: true,
         }
       );
 

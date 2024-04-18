@@ -36,7 +36,10 @@ const Search = () => {
       setError(null);
       setLoading(true);
       const response = await axios.get(
-        `${apiBaseUrl}/api/v1/search/get-search-results?q=${searchQuery}`
+        `${apiBaseUrl}/api/v1/search/get-search-results?q=${searchQuery}`,
+        {
+          withCredentials: true,
+        }
       );
 
       if (response?.data?.data?.length !== 0) {

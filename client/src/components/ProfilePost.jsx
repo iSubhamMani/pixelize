@@ -49,6 +49,7 @@ const ProfilePost = ({ post }) => {
           headers: {
             "Content-Type": "application/json",
           },
+          withCredentials: true,
         }
       );
 
@@ -69,7 +70,10 @@ const ProfilePost = ({ post }) => {
   const getCurrentUserLikeStatus = async () => {
     try {
       const response = await axios.get(
-        `${apiBaseUrl}/api/v1/likes/get-current-user-like-status?postId=${post._id}`
+        `${apiBaseUrl}/api/v1/likes/get-current-user-like-status?postId=${post._id}`,
+        {
+          withCredentials: true,
+        }
       );
 
       if (response) {
@@ -87,7 +91,10 @@ const ProfilePost = ({ post }) => {
 
   const getPostLikesCount = async () => {
     const response = await axios.get(
-      `${apiBaseUrl}/api/v1/likes/get-likes-count?postId=${post._id}`
+      `${apiBaseUrl}/api/v1/likes/get-likes-count?postId=${post._id}`,
+      {
+        withCredentials: true,
+      }
     );
 
     if (response) {
@@ -102,6 +109,9 @@ const ProfilePost = ({ post }) => {
         `${apiBaseUrl}/api/v1/posts/delete-post/${post._id}`,
         {
           postImage: image,
+        },
+        {
+          withCredentials: true,
         }
       );
 

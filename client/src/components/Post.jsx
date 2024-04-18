@@ -46,6 +46,7 @@ const Post = ({ post }) => {
           headers: {
             "Content-Type": "application/json",
           },
+          withCredentials: true,
         }
       );
 
@@ -66,7 +67,10 @@ const Post = ({ post }) => {
   const getCurrentUserLikeStatus = async () => {
     try {
       const response = await axios.get(
-        `${apiBaseUrl}/api/v1/likes/get-current-user-like-status?postId=${post._id}`
+        `${apiBaseUrl}/api/v1/likes/get-current-user-like-status?postId=${post._id}`,
+        {
+          withCredentials: true,
+        }
       );
 
       if (response) {
@@ -84,7 +88,10 @@ const Post = ({ post }) => {
 
   const getPostLikesCount = async () => {
     const response = await axios.get(
-      `${apiBaseUrl}/api/v1/likes/get-likes-count?postId=${post._id}`
+      `${apiBaseUrl}/api/v1/likes/get-likes-count?postId=${post._id}`,
+      {
+        withCredentials: true,
+      }
     );
 
     if (response) {

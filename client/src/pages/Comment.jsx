@@ -30,6 +30,9 @@ const Comment = () => {
         `${apiBaseUrl}/api/v1/comments/create-comment/${postId}`,
         {
           content: commentContent,
+        },
+        {
+          withCredentials: true,
         }
       );
 
@@ -48,7 +51,10 @@ const Comment = () => {
     try {
       setLoading(true);
       const response = await axios.get(
-        `${apiBaseUrl}/api/v1/comments/get-post-comments/${postId}`
+        `${apiBaseUrl}/api/v1/comments/get-post-comments/${postId}`,
+        {
+          withCredentials: true,
+        }
       );
 
       if (response) {
@@ -63,7 +69,10 @@ const Comment = () => {
 
   const deleteComment = async (deletedComment) => {
     const response = await axios.delete(
-      `${apiBaseUrl}/api/v1/comments/delete-comment/${deletedComment?._id}`
+      `${apiBaseUrl}/api/v1/comments/delete-comment/${deletedComment?._id}`,
+      {
+        withCredentials: true,
+      }
     );
 
     if (

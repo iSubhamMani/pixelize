@@ -8,7 +8,7 @@ app.use(express.json({ limit: "16kb" }));
 
 app.use(
   cors({
-    origin: "https://pixelize-unet.vercel.app/",
+    origin: "https://pixelize-unet.vercel.app",
     credentials: true,
   })
 );

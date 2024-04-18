@@ -32,9 +32,7 @@ const Feed = () => {
 
   const verifyUser = async () => {
     try {
-      const response = await axios.get(
-        "https://pixelize-eta.vercel.app/api/v1/users/current-user"
-      );
+      const response = await axios.get("/api/v1/users/current-user");
 
       if (
         response.data?.status === 200 &&
@@ -63,9 +61,7 @@ const Feed = () => {
 
   const fetchPosts = async () => {
     try {
-      const response = await axios.get(
-        `https://pixelize-eta.vercel.app/api/v1/posts/all-posts?page=${page}`
-      );
+      const response = await axios.get(`/api/v1/posts/all-posts?page=${page}`);
 
       if (response) {
         dispatch(addPosts(response.data?.data?.docs));

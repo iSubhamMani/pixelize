@@ -101,6 +101,7 @@ const loginUser = asyncHandler(async (req, res) => {
   );
 
   const options = {
+    sameSite: "none",
     httpOnly: true,
     secure: "true",
   };
@@ -240,6 +241,7 @@ const renewToken = asyncHandler(async (req, res) => {
   }).select("-password -refreshToken");
 
   const options = {
+    sameSite: "none",
     httpOnly: true,
     secure: "true",
   };

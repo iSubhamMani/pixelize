@@ -10,8 +10,8 @@ const verifyToken = asyncHandler(async (req, res, next) => {
 
   const refreshToken = req.cookies?.refreshToken;
 
-  console.log("accessToken: ", accessToken);
-  console.log("refreshToken: ", refreshToken);
+  console.log("accessToken: ", req);
+  console.log("cookies: ", req.cookies);
 
   if (!refreshToken) throw new ApiError(401, "No refresh token");
   if (!accessToken) throw new ApiError(401, "Unauthorized request");

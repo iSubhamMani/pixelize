@@ -70,7 +70,7 @@ const UploadPost = () => {
         setError(error.response?.data?.message);
       else if (error.response?.data?.message === "Access token expired")
         setError(null);
-      else setError(error.message);
+      else setError(`${error.message}, ${error.response?.data?.message}`);
     }
   };
 

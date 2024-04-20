@@ -32,7 +32,6 @@ const UploadPost = () => {
           headers: {
             "Content-Type": "multipart/form-data",
           },
-          "Access-Control-Allow-Origin": "https://pixelize-unet.vercel.app",
           withCredentials: true,
         }
       );

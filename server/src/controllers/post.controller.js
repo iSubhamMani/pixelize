@@ -53,8 +53,6 @@ const uploadPost = asyncHandler(async (req, res) => {
     throw new ApiError(500, "Failed to upload post");
   }
 
-  console.log("Everything okay");
-
   return res
     .status(200)
     .json(new ApiResponse(201, "Post uploaded successfully", post));

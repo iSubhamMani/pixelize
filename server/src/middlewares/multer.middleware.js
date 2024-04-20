@@ -9,7 +9,13 @@ const storage = multer.diskStorage({
 
     const uploadDir = path.join(dirName, "../../public/temp");
 
-    cb(null, uploadDir);
+    ensureDirectoryExists(uploadDir)
+      .then(() => {
+        cb(null, uploadDir);
+      })
+      .catch((err) => {
+        console.error("Error ensuring directory existence:", err);
+      });
   },
   filename: function (req, file, cb) {
     cb(null, file.originalname);

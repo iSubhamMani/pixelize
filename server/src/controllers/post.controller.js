@@ -13,6 +13,7 @@ import { getCloudinaryPublicId } from "../utils/getCloudinaryId.js";
 const uploadPost = asyncHandler(async (req, res) => {
   const { caption } = req.body;
   const imageLocalPath = req.file?.path;
+  console.log("imageLocalPath", imageLocalPath);
 
   // validate input
   if (!caption) {

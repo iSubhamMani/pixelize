@@ -6,7 +6,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: "https://pixelize-unet.vercel.app",
+    origin: "https://pixelize-fawn.vercel.app",
     credentials: true,
   })
 );
